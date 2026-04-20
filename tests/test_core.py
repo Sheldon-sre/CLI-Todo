@@ -29,3 +29,5 @@ def test_add_task():
     task_list 是一个列表，task_list[title] 是用字符串当索引，列表只能用数字索引
 
     '''
+
+    # TDD cycle: Red → 先写测试，跑失败 ; Green → 写最简实现，跑通过; Refactor（重构）-> 写更清晰的测试
