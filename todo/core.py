@@ -70,3 +70,18 @@ def get_tasks(task_list):
     return task_list.copy()
 
 #  Refactor 阶段的意义：改善代码质量，但不改变行为。
+
+
+# 3. 完成任务
+# 实现"把一个任务标记为完成"
+
+# 怎么判断 index 是否越界？
+# 越界时怎么抛出异常？
+# 正常情况下怎么修改对应任务的 completed 字段
+
+def complete_task(task_list, index):
+    if index >= len(task_list):
+        # raise IndexError
+        # 工业界里异常信息越具体越好，出 bug 时能直接看出问题在哪
+        raise IndexError(f"index {index} is out of range, task list has {len(task_list)} tasks")
+    task_list[index]["completed"] = True

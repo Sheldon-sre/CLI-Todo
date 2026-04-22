@@ -1,5 +1,6 @@
 # 为添加功能写的测试
-from todo.core import add_task, get_tasks
+from todo.core import add_task, get_tasks, complete_task
+import pytest
 
 def test_add_task():
     # 准备
@@ -48,5 +49,31 @@ def test_get_tasks_empty():
     task_list = []
     tasks = get_tasks(task_list)
     assert tasks == [], "task list should be empty"
+
+def test_complete_task():
+    task_list = []
+    index = 1
+
+    add_task(task_list, "buy eggs")
+    add_task(task_list, "buy fruits")
+
+    complete_task(task_list, index)
+
+    assert task_list[0]["completed"] == False, "the status of first task should be uncompleted"
+    assert task_list[1]["completed"] == True, "the status of second task should be completed"
+
+# 边界情况: 如果传入的 index 超出列表范围怎么办？比如列表只有2个任务，但传入 index = 5？
+def test_complete_task_invalid_index():
+    task_list = []
+
+    add_task(task_list, "buy eggs")
+    add_task(task_list, "buy fruits")
+
+    # assert index < len(task_list), raise IndexError
+
+    # 执行 complete_task(task_list, 5) 时，期望它抛出 IndexError，如果抛出了测试就通过，没抛出就失败。
+    with pytest.raises(IndexError):
+        complete_task(task_list, 5)
+
 
 # TDD cycle: Red → 先写测试，跑失败 ; Green → 写最简实现，跑通过; Refactor（重构）-> 写更清晰的测试
