@@ -46,3 +46,27 @@ def add_task(task_list, title, status):
 def add_task(task_list, title):
     task = {"title": title, "completed": False}
     task_list.append(task)
+
+
+# 2.获取所有任务
+# 现在 task_list 是直接暴露给调用者的，工业界通常会提供一个函数来获取数据，而不是让外部直接操作内部数据结构。
+
+# def get_tasks(task_list):
+#     tasks = []
+#     if len(task_list) == 0:
+#         return []
+#     for i in task_list:
+#         tasks.append(i)
+#     return tasks
+
+# 可以简化，如果 task_list 本身就是一个列表，直接返回它的一个拷贝就行了
+# def get_tasks(task_list):
+#     if len(task_list) == 0:
+#         return []
+#     return list(task_list)
+
+# .copy() 会返回列表的一个浅拷贝，空列表也会直接返回 []，所以那个 if 判断也不需要了。
+def get_tasks(task_list):
+    return task_list.copy()
+
+#  Refactor 阶段的意义：改善代码质量，但不改变行为。
