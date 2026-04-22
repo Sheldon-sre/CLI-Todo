@@ -1,5 +1,5 @@
 # 为添加功能写的测试
-from todo.core import add_task, get_tasks, complete_task
+from todo.core import add_task, get_tasks, complete_task, delete_task, edit_task
 import pytest
 
 def test_add_task():
@@ -75,5 +75,46 @@ def test_complete_task_invalid_index():
     with pytest.raises(IndexError):
         complete_task(task_list, 5)
 
+def test_delete_task():
+    task_list = []
+    index = 1
 
+    add_task(task_list, "buy eggs")
+    add_task(task_list, "buy fruits")
+
+    delete_task(task_list, index)
+
+    assert len(task_list) == 1, "the numbers of tasks should be 1"
+    assert task_list[0]["title"] == "buy eggs", "the title of first task should be 'buy eggs'"
+
+def test_delete_task_invalid_index():
+    task_list = []
+
+    add_task(task_list, "buy eggs")
+    add_task(task_list, "buy fruits")
+
+    with pytest.raises(IndexError):
+        delete_task(task_list, 5)
+
+def test_edit_task():
+    task_list = []
+    index = 1
+    new_title = "buy tomatoes"
+
+    add_task(task_list, "buy eggs")
+    add_task(task_list, "buy fruits")
+
+    edit_task(task_list, index, new_title)
+
+    assert len(task_list) == 2, "the number of tasks should be 2"
+    assert task_list[1]["title"] == "buy tomatoes", "the title of second task should be 'buy tomatoes'"
+
+def test_edit_task_invalid_index():
+    task_list = []
+
+    add_task(task_list, "buy eggs")
+    add_task(task_list, "buy fruits")
+
+    with pytest.raises(IndexError):
+        edit_task(task_list, 5, "buy tomatoes")
 # TDD cycle: Red → 先写测试，跑失败 ; Green → 写最简实现，跑通过; Refactor（重构）-> 写更清晰的测试

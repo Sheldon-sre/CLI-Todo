@@ -85,3 +85,16 @@ def complete_task(task_list, index):
         # 工业界里异常信息越具体越好，出 bug 时能直接看出问题在哪
         raise IndexError(f"index {index} is out of range, task list has {len(task_list)} tasks")
     task_list[index]["completed"] = True
+
+
+# 4. 删除任务
+def delete_task(task_list, index):
+    if index >= len(task_list):
+        raise IndexError(f"index {index} is out of range, task list has {len(task_list)} tasks")
+    task_list.pop(index)
+
+# 5. 编辑任务标题
+def edit_task(task_list, index, new_title):
+    if index >= len(task_list):
+        raise IndexError
+    task_list[index]["title"] = new_title
