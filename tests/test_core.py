@@ -1,5 +1,5 @@
 # 为添加功能写的测试
-from todo.core import add_task
+from todo.core import add_task, get_tasks
 
 def test_add_task():
     # 准备
@@ -26,8 +26,27 @@ def test_add_task():
     assert task_list[title] == "buy eggs", "title is not 'buy eggs'"
     assert task_list[completed] == False, "completed is not False"
 
-    task_list 是一个列表，task_list[title] 是用字符串当索引，列表只能用数字索引
+    task_list 是一个列表, task_list[title] 是用字符串当索引，列表只能用数字索引
 
     '''
 
-    # TDD cycle: Red → 先写测试，跑失败 ; Green → 写最简实现，跑通过; Refactor（重构）-> 写更清晰的测试
+# get_tasks 的职责是获取任务列表，所以测试的重点应该是——你拿到的数据对不对，而不只是"不为空"。 
+# 拿到的任务数量是否正确？
+# 拿到的第一个任务，内容对不对？
+def test_get_tasks():
+    task_list = []
+    add_task(task_list, "buy eggs")
+    add_task(task_list, "buy fruits")
+
+    tasks = get_tasks(task_list)
+    assert len(tasks) == 2, "the numbers of tasks is not 2"
+    assert tasks[0]["title"] == "buy eggs", "the title of first task is not 'buy eggs'"
+    assert tasks[1]["title"] == "buy fruits", "the title of second task is not 'buy fruits'"
+
+# 另外还有一个边界情况值得测试——如果 task_list 是空的，get_tasks 应该返回什么？这种边界测试在工业界非常重要，单独写一个测试函数：
+def test_get_tasks_empty():
+    task_list = []
+    tasks = get_tasks(task_list)
+    assert tasks == [], "task list should be empty"
+
+# TDD cycle: Red → 先写测试，跑失败 ; Green → 写最简实现，跑通过; Refactor（重构）-> 写更清晰的测试
